@@ -1,0 +1,68 @@
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb-wrap">
+      <nav class="breadcrumb">
+        <a routerLink="/">Início</a>
+        <span>/</span>
+        <span>{{ currentTitle() }}</span>
+      </nav>
+      <div class="breadcrumb-divider"></div>
+    </div>
+    <h1>{{ currentTitle() }}</h1>
+    @if (currentDescription()) {
+      <p class="category-description">{{ currentDescription() }}</p>
+    }
+    @if (searchTerm()) {
+      <p class="search-info">Resultados para: <strong>"{{ searchTerm() }}"</strong></p>
+    }
+  </div>
+</section>
+
+<section class="catalog">
+  <div class="container catalog-grid">
+    <aside class="filters">
+      <h3>Categorias</h3>
+      <ul>
+        @for (cat of categories; track cat.slug) {
+          <li>
+            <a
+              [routerLink]="cat.slug === 'todas' ? '/catalogo' : ['/catalogo', cat.slug]"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              {{ cat.name }}
+            </a>
+          </li>
+        }
+      </ul>
+    </aside>
+
+    <div class="results">
+      <div class="results-bar">
+        <span>{{ products().length }} produto(s)</span>
+        <label>
+          Ordenar:
+          <select [value]="sort()" (change)="setSort($event)">
+            <option value="destaque">Destaque</option>
+            <option value="preco-asc">Menor preço</option>
+            <option value="preco-desc">Maior preço</option>
+            <option value="nome">Nome (A-Z)</option>
+          </select>
+        </label>
+      </div>
+
+      @if (products().length === 0) {
+        <div class="empty">
+          <p>Nenhum produto encontrado.</p>
+          <a routerLink="/catalogo" class="btn btn-outline">Ver tudo</a>
+        </div>
+      } @else {
+        <div class="product-grid">
+          @for (p of products(); track p.id) {
+            <app-product-card [product]="p"/>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+.page-header {
+  background: var(--color-surface);
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--color-border);
+
+  h1 { font-size: 2rem; margin-top: 0.5rem; }
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  flex-wrap: wrap;
+
+  a {
+    &:hover { color: var(--color-primary); }
+  }
+
+  span:last-child { color: var(--color-text); font-weight: 500; }
+}
+
+.faq-wrap {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.accordion {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &.open {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.25rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+
+    &:hover { color: var(--color-primary); }
+  }
+
+  .chevron {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: transform 0.2s ease;
+  }
+
+  &.open .chevron {
+    transform: rotate(180deg);
+    color: var(--color-primary);
+  }
+
+  .a {
+    padding: 0 1.25rem 1.25rem;
+
+    p {
+      margin: 0;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+  }
+}
+
+.cta-card {
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  position: sticky;
+  top: 110px;
+  display: grid;
+  gap: 0.75rem;
+
+  h3 { color: var(--color-primary-dark); }
+
+  p {
+    color: var(--color-text-muted);
+    margin: 0 0 0.25rem;
+  }
+
+  .btn { width: 100%; }
+}
+
+@media (max-width: 800px) {
+  .faq-wrap { grid-template-columns: 1fr; }
+  .cta-card { position: static; }
+}
+
+@media (max-width: 600px) {
+  .page-header { padding: 1.75rem 0 1.5rem; }
+  .page-header h1 { font-size: 1.6rem; }
+  .item .q { padding: 0.95rem 1rem; font-size: 0.95rem; }
+}

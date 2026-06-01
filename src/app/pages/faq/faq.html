@@ -1,0 +1,35 @@
+<section class="page-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a routerLink="/">Início</a><span>/</span><span>FAQ</span>
+    </nav>
+    <h1>Perguntas frequentes</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container faq-wrap">
+    <ul class="accordion">
+      @for (item of faq; track item.question; let i = $index) {
+        <li class="item" [class.open]="open() === i">
+          <button class="q" (click)="toggle(i)" [attr.aria-expanded]="open() === i">
+            <span>{{ item.question }}</span>
+            <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          @if (open() === i) {
+            <div class="a"><p>{{ item.answer }}</p></div>
+          }
+        </li>
+      }
+    </ul>
+
+    <aside class="cta-card">
+      <h3>Não achou sua resposta?</h3>
+      <p>Fale com nosso time pelo WhatsApp. Respondemos rápido. 🌱</p>
+      <button class="btn btn-whatsapp" (click)="askOnWhatsapp()">Tirar dúvida no WhatsApp</button>
+      <a routerLink="/catalogo" class="btn btn-outline">Ver catálogo</a>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,143 @@
+.site-footer {
+  background: #0d1f14;
+  color: #e8efea;
+  padding: 3rem 0 1.5rem;
+  margin-top: 4rem;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand {
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+
+    &-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--color-primary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    &-text {
+      line-height: 1.1;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-display);
+
+      strong {
+        font-weight: 800;
+        font-size: 1.05rem;
+      }
+
+      small {
+        font-size: 0.7rem;
+        color: var(--color-text-muted);
+        letter-spacing: 0.1em;
+      }
+    }
+  }
+
+  p {
+    color: #b6c2bb;
+    font-size: 0.9rem;
+    margin: 0 0 0.3rem;
+  }
+
+  .small {
+    font-size: 0.8rem;
+    color: #8a958e;
+  }
+}
+
+h4 {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+
+  li {
+    font-size: 0.88rem;
+    color: #b6c2bb;
+  }
+
+  a {
+    color: #b6c2bb;
+    transition: color 0.2s;
+    &:hover { color: var(--color-accent); }
+  }
+
+  .category-list {
+    a {
+      opacity: 0.35;
+      pointer-events: none;
+      cursor: default;
+      color: rgba(182, 194, 187, 0.35);
+    }
+  }
+}
+
+.social {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  a {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+
+    &:hover { background: var(--color-primary); }
+  }
+}
+
+.disclaimer {
+  padding-top: 1.5rem;
+  text-align: center;
+  color: #8a958e;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 800px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}

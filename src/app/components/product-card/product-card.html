@@ -1,0 +1,30 @@
+<a class="card" [routerLink]="['/produto', product().slug]">
+  <div class="img-wrap">
+    @if (product().promo) {
+      <span class="tag tag-promo">Promo</span>
+    }
+    @if (product().bestSeller) {
+      <span class="tag tag-best">Mais vendido</span>
+    }
+    <img [src]="product().image" [alt]="product().name" loading="lazy"/>
+  </div>
+
+  <div class="info">
+    @if (product().type) {
+      <small class="type">{{ product().type }}</small>
+    }
+    <h3>{{ product().name }}</h3>
+    <p class="desc">{{ product().shortDescription }}</p>
+
+    <div class="price">
+      @if (product().oldPrice) {
+        <span class="old">{{ product().oldPrice | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+      }
+      <span class="now">{{ product().price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+    </div>
+
+    <button class="btn btn-primary add-btn" (click)="add($event)">
+      Adicionar
+    </button>
+  </div>
+</a>
