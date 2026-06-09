@@ -10,12 +10,13 @@
       <h1>Sementes selecionadas, as melhores!</h1>
       <p>Curadoria de genéticas premiadas, embalagem 100% discreta e atendimento direto pelo WhatsApp.</p>
       <div class="hero-actions">
+        <a routerLink="/catalogo" class="btn btn-primary">Ver catálogo</a>
+        <button class="btn btn-outline" type="button" (click)="talkOnWhatsapp()">Fale pelo WhatsApp</button>
       </div>
     </div>
   </div>
 </section>
 
-<!--
 <section class="section hero-categories">
   <div class="container">
     <div class="section-title">
@@ -55,9 +56,7 @@
     </div>
   </div>
 </section>
--->
 
-<!--
 <section class="section">
   <div class="container">
     <div class="section-title">
@@ -81,7 +80,7 @@
     <a routerLink="/catalogo/atacado" class="btn btn-primary">Ver atacado</a>
   </div>
 </section>
--->
+
 
 @if (promos.length > 0) {
   <section class="section">
