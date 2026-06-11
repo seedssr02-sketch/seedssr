@@ -20,13 +20,25 @@
       <div class="info">
         @if (p.type) { <small class="type">{{ p.type }}</small> }
         <h1>{{ p.name }}</h1>
-        <p class="short">{{ p.shortDescription }}</p>
 
         <div class="price">
           @if (p.oldPrice) {
             <span class="old">{{ p.oldPrice | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
           }
           <span class="now">{{ p.price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        </div>
+
+        <div class="product-specs">
+          @if (p.thc) { <p><strong>Concentração de THC:</strong> {{ p.thc }}</p> }
+          @if (p.cbd) { <p><strong>Concentração de CBD:</strong> {{ p.cbd }}</p> }
+          @if (p.predominance) { <p><strong>Predominância:</strong> {{ p.predominance }}</p> }
+          @if (p.genetics) { <p><strong>Genética:</strong> {{ p.genetics }}</p> }
+          @if (p.medicinal) { <p><strong>Medicinal:</strong> {{ p.medicinal }}</p> }
+          @if (p.effects) { <p><strong>Efeitos:</strong> {{ p.effects }}</p> }
+          @if (p.height) { <p><strong>Altura:</strong> {{ p.height }}</p> }
+          @if (p.yield) { <p><strong>Rendimento:</strong> {{ p.yield }}</p> }
+          @if (p.flowering) { <p><strong>Tempo de Floração:</strong> {{ p.flowering }}</p> }
+          @if (p.flavor) { <p><strong>Sabor/Aroma:</strong> {{ p.flavor }}</p> }
         </div>
 
         <div class="actions">

@@ -21,6 +21,13 @@ export class HomePage {
   promos = this.productService.promos();
   faq = FAQ;
 
+  readonly seedGallery = [
+    { slug: 'amnesia-haze-fem', image: '/img1.jpeg', alt: 'Amnesia Haze Feminizada' },
+    { slug: 'purple-punch-fem', image: '/img2.jpeg', alt: 'Purple Punch Feminizada' },
+    { slug: 'wedding-cake-auto', image: '/img3.jpeg', alt: 'Wedding Cake Autoflorescente' },
+    { slug: 'gorilla-glue-fem', image: '/img4.jpeg', alt: 'Gorilla Glue #4 Feminizada' },
+  ];
+
   openFaq = signal<number | null>(0);
 
   toggleFaq(i: number) {

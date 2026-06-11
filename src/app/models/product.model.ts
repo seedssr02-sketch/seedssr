@@ -14,7 +14,12 @@ export interface Product {
   genetics?: string;
   thc?: string;
   cbd?: string;
+  predominance?: string;
+  medicinal?: string;
+  effects?: string;
+  height?: string;
   flowering?: string;
+  flavor?: string;
   yield?: string;
   type?: string;
   price: number;

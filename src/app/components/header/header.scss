@@ -190,6 +190,24 @@
   .primary-nav { display: none; }
   .mobile-toggle { display: grid; }
   .mobile-nav { display: flex; }
+
+  .header-main {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo {
+    margin: 0;
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .header-actions {
+    grid-column: 3;
+    justify-self: end;
+  }
 }
 
 @media (max-width: 600px) {
