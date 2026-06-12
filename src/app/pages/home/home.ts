@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { WhatsappService } from '../../services/whatsapp.service';
 import { ProductCardComponent } from '../../components/product-card/product-card';
@@ -17,7 +18,20 @@ export class HomePage {
   private whatsapp = inject(WhatsappService);
   site = SITE;
 
-  bestSellers = this.productService.bestSellers();
+  // Seleção manual: lista de slugs que devem aparecer na home
+  // Ajuste essa lista conforme quiser destacar outros produtos
+  featuredSlugs = [
+    'amnesia-haze-fem',
+    'purple-punch-fem',
+    'wedding-cake-auto',
+    'gorilla-glue-fem',
+  ];
+
+  // Mapear slugs para produtos, filtrar vazios e sem imagem, limitar a 4
+  bestSellers = this.featuredSlugs
+    .map((s) => this.productService.bySlug(s))
+    .filter((p): p is Product => !!p && !!p.image)
+    .slice(0, 4);
   promos = this.productService.promos();
   faq = FAQ;
 
@@ -27,6 +41,10 @@ export class HomePage {
     { slug: 'wedding-cake-auto', image: '/img3.jpeg', alt: 'Wedding Cake Autoflorescente' },
     { slug: 'gorilla-glue-fem', image: '/img4.jpeg', alt: 'Gorilla Glue #4 Feminizada' },
   ];
+
+  // Título animado: cada letra entra sequencialmente e espaços são preservados
+  heroTitle = 'Sementes selecionadas, as melhores!';
+  heroChars = Array.from(this.heroTitle.replace(/ /g, '\u00A0'));
 
   openFaq = signal<number | null>(0);
 

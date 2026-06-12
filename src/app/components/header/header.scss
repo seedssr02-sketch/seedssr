@@ -74,9 +74,9 @@
     color: var(--color-text);
     padding: 0.5rem 0;
     position: relative;
-    opacity: 0.35;
-    pointer-events: none;
-    cursor: default;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
 
     &:hover, &.active {
       color: var(--color-text);
@@ -87,7 +87,7 @@
       position: absolute;
       left: 0; right: 0; bottom: -4px;
       height: 2px;
-      background: transparent;
+      background: var(--color-primary);
       border-radius: 2px;
     }
   }
@@ -95,9 +95,9 @@
 
 .mobile-nav {
   a {
-    opacity: 0.35;
-    pointer-events: none;
-    cursor: default;
+    opacity: 1;
+    pointer-events: auto;
+    cursor: pointer;
   }
 }
 

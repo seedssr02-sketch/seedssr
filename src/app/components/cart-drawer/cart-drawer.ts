@@ -3,6 +3,7 @@ import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { WhatsappService } from '../../services/whatsapp.service';
+import { CheckoutService } from '../../services/checkout.service';
 import { SITE } from '../../config/site.config';
 
 @Component({
@@ -14,6 +15,7 @@ import { SITE } from '../../config/site.config';
 export class CartDrawerComponent {
   cart = inject(CartService);
   whatsapp = inject(WhatsappService);
+  checkout = inject(CheckoutService);
   site = SITE;
 
   inc(id: string, current: number) {
@@ -24,10 +26,7 @@ export class CartDrawerComponent {
     this.cart.setQuantity(id, current - 1);
   }
 
-  checkout() {
-    const items = this.cart.items();
-    if (items.length === 0) return;
-    const msg = this.whatsapp.buildCartMessage(items, this.cart.subtotal());
-    this.whatsapp.openChat(msg);
+  openCheckout() {
+    this.checkout.open();
   }
 }

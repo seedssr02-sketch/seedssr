@@ -33,8 +33,6 @@ export class CatalogPage {
     { slug: 'autoflorescentes', name: 'Autoflorescentes' },
     { slug: 'cbd', name: 'CBD' },
     { slug: 'cali', name: 'Sementes de Cali' },
-    { slug: 'atacado', name: 'Atacado' },
-    { slug: 'headshop', name: 'Headshop' },
   ];
 
   category = computed<CategoryOption['slug']>(() => {
@@ -111,5 +109,12 @@ export class CatalogPage {
   setSort(event: Event) {
     const value = (event.target as HTMLSelectElement).value as SortKey;
     this.sort.set(value);
+  }
+
+  scrollToProducts() {
+    const target = document.getElementById('product-list');
+    if (!target) return;
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }

@@ -1,0 +1,143 @@
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="close()"></div>
+  <div class="modal">
+    <header class="modal-header">
+      <h3>Finalizar Pedido</h3>
+      <button class="icon-btn" (click)="close()" aria-label="Fechar">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="modal-content">
+      <form (ngSubmit)="submit()">
+        <!-- Nome e Sobrenome -->
+        <div class="form-group">
+          <label for="name">Nome e Sobrenome *</label>
+          <input
+            id="name"
+            type="text"
+            [value]="form().name"
+            (input)="updateField('name', $event.target.value)"
+            name="name"
+            placeholder="Seu nome completo"
+            required
+          />
+        </div>
+
+        <!-- Telefone -->
+        <div class="form-group">
+          <label for="phone">Telefone *</label>
+          <input
+            id="phone"
+            type="tel"
+            [value]="form().phone"
+            (input)="updateField('phone', $event.target.value)"
+            name="phone"
+            placeholder="(11) 9 1234-5678"
+            required
+          />
+        </div>
+
+        <!-- CEP -->
+        <div class="form-group">
+          <label for="cep">CEP *</label>
+          <input
+            id="cep"
+            type="text"
+            [value]="form().cep"
+            (input)="updateField('cep', $event.target.value)"
+            (change)="onCepChange($event.target.value)"
+            name="cep"
+            placeholder="12345-678"
+            [disabled]="isLoadingCep()"
+            required
+          />
+          @if (cepError()) {
+            <span class="error-text">{{ cepError() }}</span>
+          }
+          @if (isLoadingCep()) {
+            <span class="loading-text">Buscando endereço...</span>
+          }
+        </div>
+
+        <!-- Endereço (preenchido automaticamente) -->
+        <div class="form-group">
+          <label for="address">Endereço *</label>
+          <input
+            id="address"
+            type="text"
+            [value]="form().address"
+            (input)="updateField('address', $event.target.value)"
+            name="address"
+            placeholder="Rua, avenida, etc"
+            required
+          />
+        </div>
+
+        <!-- Cidade -->
+        <div class="form-group">
+          <label for="city">Cidade *</label>
+          <input
+            id="city"
+            type="text"
+            [value]="form().city"
+            (input)="updateField('city', $event.target.value)"
+            name="city"
+            placeholder="São Paulo"
+            required
+          />
+        </div>
+
+        <!-- Estado -->
+        <div class="form-group">
+          <label for="state">Estado *</label>
+          <input
+            id="state"
+            type="text"
+            [value]="form().state"
+            (input)="updateField('state', $event.target.value)"
+            name="state"
+            placeholder="SP"
+            maxlength="2"
+            required
+          />
+        </div>
+
+        <!-- Forma de Pagamento -->
+        <div class="form-group">
+          <label>Forma de Pagamento *</label>
+          <div class="payment-options">
+            @for (method of paymentMethods; track method.id) {
+              <label class="payment-option">
+                <input
+                  type="radio"
+                  [value]="method.id"
+                  [checked]="form().paymentMethod === method.id"
+                  (change)="updateField('paymentMethod', method.id)"
+                  name="payment"
+                  required
+                />
+                <span>{{ method.label }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" (click)="close()">Cancelar</button>
+          <button
+            type="submit"
+            class="btn btn-whatsapp"
+            [disabled]="!isFormValid()"
+          >
+            Finalizar no WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

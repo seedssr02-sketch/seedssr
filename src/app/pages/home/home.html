@@ -7,7 +7,11 @@
   <div class="container hero-inner">
     <div class="hero-text">
       <span class="badge">Genética premium</span>
-      <h1>Sementes selecionadas, as melhores!</h1>
+      <h1 class="hero-animated">
+        @for (char of heroChars; track $index; let i = $index) {
+          <span class="letter" style="animation-delay: {{ i * 60 }}ms">{{ char }}</span>
+        }
+      </h1>
       <p>Curadoria de genéticas premiadas, embalagem 100% discreta e atendimento direto pelo WhatsApp.</p>
       <div class="hero-actions">
         <a routerLink="/catalogo" class="btn btn-primary btn-sm">Ver catálogo</a>
@@ -36,28 +40,28 @@
       <p class="section-subtitle">Escolha a genética ideal com destaque para feminizadas, autoflorescentes, Cali e CBD.</p>
     </div>
     <div class="hero-visual">
-      <a routerLink="/catalogo/feminizadas" class="cat-btn cat-fem">
+      <a class="cat-btn cat-fem inactive" aria-disabled="true" tabindex="-1">
         <div>
           <small>Melhor para cultivo indoor</small>
           <strong>Sementes Feminizadas</strong>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a routerLink="/catalogo/autoflorescentes" class="cat-btn cat-auto">
+      <a class="cat-btn cat-auto inactive" aria-disabled="true" tabindex="-1">
         <div>
           <small>Crescimento rápido e simples</small>
           <strong>Sementes Autoflorescentes</strong>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a routerLink="/catalogo/cali" class="cat-btn cat-cali">
+      <a class="cat-btn cat-cali inactive" aria-disabled="true" tabindex="-1">
         <div>
           <small>Linhagens premium da Califórnia</small>
           <strong>Sementes de Cali</strong>
         </div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a routerLink="/catalogo/cbd" class="cat-btn cat-cbd">
+      <a class="cat-btn cat-cbd inactive" aria-disabled="true" tabindex="-1">
         <div>
           <small>Foco em bem-estar e equilíbrio</small>
           <strong>Sementes de CBD</strong>

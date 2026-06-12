@@ -28,8 +28,7 @@
             <a
               [routerLink]="cat.slug === 'todas' ? '/catalogo' : ['/catalogo', cat.slug]"
               routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
+              [routerLinkActiveOptions]="{ exact: true }"              (click)="scrollToProducts()"            >
               {{ cat.name }}
             </a>
           </li>
@@ -57,7 +56,7 @@
           <a routerLink="/catalogo" class="btn btn-outline">Ver tudo</a>
         </div>
       } @else {
-        <div class="product-grid">
+        <div class="product-grid" id="product-list">
           @for (p of products(); track p.id) {
             <app-product-card [product]="p"/>
           }

@@ -28,8 +28,7 @@ export class HeaderComponent {
     { label: 'Autoflorescentes', link: '/catalogo/autoflorescentes' },
     { label: 'CBD', link: '/catalogo/cbd' },
     { label: 'Sementes de Cali', link: '/catalogo/cali' },
-    { label: 'Atacado', link: '/catalogo/atacado' },
-    { label: 'Headshop', link: '/catalogo/headshop' },
+    // Entradas temporariamente removidas: Atacado, Headshop
   ];
 
   toggleMobile() {
