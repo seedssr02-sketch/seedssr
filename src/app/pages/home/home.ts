@@ -89,7 +89,13 @@ export class HomePage implements AfterViewInit, OnDestroy {
     audio.volume = 1;
     audio.muted = false;
     audio.load();
-    this.tryPlayAudio(audio);
+
+    this.tryPlayAudio(audio).then((played) => {
+      if (!played) {
+        audio.muted = true;
+        this.audioEnabled.set(false);
+      }
+    });
 
     video.muted = true;
     video.play?.().catch(() => {});
@@ -123,10 +129,20 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.unlistenVisibility = () => window.removeEventListener('visibilitychange', keepPlaying);
   }
 
-  private tryPlayAudio(audio: HTMLAudioElement) {
-    audio.play().catch(() => {
-      setTimeout(() => audio.play().catch(() => {}), 200);
-    });
+  private tryPlayAudio(audio: HTMLAudioElement): Promise<boolean> {
+    return audio.play().then(
+      () => true,
+      () => {
+        return new Promise<boolean>((resolve) => {
+          setTimeout(() => {
+            audio.play().then(
+              () => resolve(true),
+              () => resolve(false)
+            );
+          }, 200);
+        });
+      }
+    );
   }
 
   ngOnDestroy() {
