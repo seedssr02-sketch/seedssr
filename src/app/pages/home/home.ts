@@ -1,4 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, inject, signal, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
@@ -9,14 +10,23 @@ import { SITE } from '../../config/site.config';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ProductCardComponent],
+  imports: [RouterLink, NgIf, NgFor, ProductCardComponent],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss'],
 })
-export class HomePage {
+export class HomePage implements AfterViewInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   private productService = inject(ProductService);
   private whatsapp = inject(WhatsappService);
   site = SITE;
+
+  @ViewChild('heroVideo', { static: true }) heroVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChild('heroAudio', { static: true }) heroAudio?: ElementRef<HTMLAudioElement>;
+  audioEnabled = signal(true);
+  private intersectionObserver?: IntersectionObserver;
+  private unlistenScroll?: () => void;
+  private unlistenVisibility?: () => void;
+  private unlistenResize?: () => void;
 
   // Seleção manual: lista de slugs que devem aparecer na home
   // Ajuste essa lista conforme quiser destacar outros produtos
@@ -66,4 +76,88 @@ export class HomePage {
     { slug: 'atacado', name: 'Atacado', icon: '📦' },
     { slug: 'headshop', name: 'Headshop', icon: '🛍️' },
   ];
+
+  ngAfterViewInit() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const video = this.heroVideo?.nativeElement;
+    const audio = this.heroAudio?.nativeElement;
+    if (!video || !audio) return;
+
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.volume = 1;
+    audio.muted = false;
+    audio.load();
+    this.tryPlayAudio(audio);
+
+    video.muted = true;
+    video.play?.().catch(() => {});
+
+    const keepPlaying = () => {
+      if (video.paused && !document.hidden) {
+        video.play?.().catch(() => {});
+      }
+      if (audio && !audio.paused && document.hidden === false) {
+        audio.play?.().catch(() => {});
+      }
+    };
+
+    this.intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          keepPlaying();
+        }
+      },
+      { threshold: 0 }
+    );
+
+    this.intersectionObserver.observe(video);
+
+    window.addEventListener('scroll', keepPlaying, { passive: true });
+    window.addEventListener('resize', keepPlaying);
+    window.addEventListener('visibilitychange', keepPlaying);
+
+    this.unlistenScroll = () => window.removeEventListener('scroll', keepPlaying);
+    this.unlistenResize = () => window.removeEventListener('resize', keepPlaying);
+    this.unlistenVisibility = () => window.removeEventListener('visibilitychange', keepPlaying);
+  }
+
+  private tryPlayAudio(audio: HTMLAudioElement) {
+    audio.play().catch(() => {
+      setTimeout(() => audio.play().catch(() => {}), 200);
+    });
+  }
+
+  ngOnDestroy() {
+    this.intersectionObserver?.disconnect();
+    this.unlistenScroll?.();
+    this.unlistenResize?.();
+    this.unlistenVisibility?.();
+  }
+
+  toggleAudio() {
+    const audio = this.heroAudio?.nativeElement;
+    if (!audio) return;
+
+    const enabled = !this.audioEnabled();
+    this.audioEnabled.set(enabled);
+
+    audio.muted = !enabled;
+    if (enabled && audio.paused) {
+      this.tryPlayAudio(audio);
+    }
+  }
+
+  trackBySlug(_index: number, item: { slug: string }) {
+    return item.slug;
+  }
+
+  trackByProductId(_index: number, item: Product) {
+    return item.id;
+  }
+
+  trackByFaqQuestion(_index: number, item: { question: string }) {
+    return item.question;
+  }
 }

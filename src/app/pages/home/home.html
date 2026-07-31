@@ -1,16 +1,17 @@
 <section class="hero">
   <div class="hero-bg">
-    <video autoplay muted loop playsinline preload="metadata">
-      <source src="/logo/video-ss.mp4" type="video/mp4" />
+    <video #heroVideo autoplay muted loop playsinline preload="metadata">
+      <source src="/logo/video-ss-sem-audio.mp4" type="video/mp4" />
     </video>
+    <audio #heroAudio loop preload="auto" src="/logo/audio-ss.mp3"></audio>
   </div>
   <div class="container hero-inner">
     <div class="hero-text">
       <span class="badge">Genética premium</span>
       <h1 class="hero-animated">
-        @for (char of heroChars; track $index; let i = $index) {
-          <span class="letter" style="animation-delay: {{ i * 60 }}ms">{{ char }}</span>
-        }
+        <ng-container *ngFor="let char of heroChars; let i = index">
+          <span class="letter" [style.animationDelay]="i * 60 + 'ms'">{{ char }}</span>
+        </ng-container>
       </h1>
       <p>Curadoria de genéticas premiadas, embalagem 100% discreta e atendimento direto pelo WhatsApp.</p>
       <div class="hero-actions">
@@ -20,14 +21,31 @@
   </div>
 </section>
 
+<button type="button" class="audio-fab" [class.audio-on]="audioEnabled()" [class.audio-off]="!audioEnabled()" (click)="toggleAudio()" aria-label="Alternar som">
+  <ng-container *ngIf="audioEnabled(); else mutedIcon">
+    <svg class="audio-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+      <path d="M19.07 4.93a9 9 0 0 1 0 14.14" />
+    </svg>
+  </ng-container>
+  <ng-template #mutedIcon>
+    <svg class="audio-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 5L6 9H2v6h4l5 4V5z" />
+    </svg>
+  </ng-template>
+</button>
+
 <section class="section seed-gallery-section" aria-label="Galeria de sementes">
   <div class="container">
     <div class="seed-gallery">
-      @for (item of seedGallery; track item.slug) {
-        <a [routerLink]="['/produto', item.slug]" class="seed-card">
-          <img [src]="item.image" [alt]="item.alt" />
-        </a>
-      }
+      <a
+        *ngFor="let item of seedGallery; trackBy: trackBySlug"
+        [routerLink]="['/produto', item.slug]"
+        class="seed-card"
+      >
+        <img [src]="item.image" [alt]="item.alt" />
+      </a>
     </div>
   </div>
 </section>
@@ -79,9 +97,10 @@
       <h2>Mais vendidos</h2>
     </div>
     <div class="product-grid">
-      @for (p of bestSellers; track p.id) {
-        <app-product-card [product]="p"/>
-      }
+      <app-product-card
+        *ngFor="let p of bestSellers; trackBy: trackByProductId"
+        [product]="p"
+      ></app-product-card>
     </div>
   </div>
 </section>
@@ -96,22 +115,20 @@
   </div>
 </section>
 
-
-@if (promos.length > 0) {
-  <section class="section">
-    <div class="container">
-      <div class="section-title">
-        <span>Aproveite</span>
-        <h2>Em promoção</h2>
-      </div>
-      <div class="product-grid">
-        @for (p of promos; track p.id) {
-          <app-product-card [product]="p"/>
-        }
-      </div>
+<section class="section" *ngIf="promos.length > 0">
+  <div class="container">
+    <div class="section-title">
+      <span>Aproveite</span>
+      <h2>Em promoção</h2>
     </div>
-  </section>
-}
+    <div class="product-grid">
+      <app-product-card
+        *ngFor="let p of promos; trackBy: trackByProductId"
+        [product]="p"
+      ></app-product-card>
+    </div>
+  </div>
+</section>
 
 <section class="section about-section">
   <div class="container about-grid">
@@ -139,17 +156,13 @@
       <h2>Perguntas frequentes</h2>
     </div>
     <div class="faq-list">
-      @for (item of faq; track item.question; let i = $index) {
-        <div class="faq-item" [class.open]="openFaq() === i">
-          <button class="faq-q" (click)="toggleFaq(i)">
-            <span>{{ item.question }}</span>
-            <span class="chev">{{ openFaq() === i ? '−' : '+' }}</span>
-          </button>
-          @if (openFaq() === i) {
-            <div class="faq-a">{{ item.answer }}</div>
-          }
-        </div>
-      }
+      <div *ngFor="let item of faq; let i = index; trackBy: trackByFaqQuestion" class="faq-item" [class.open]="openFaq() === i">
+        <button class="faq-q" (click)="toggleFaq(i)">
+          <span>{{ item.question }}</span>
+          <span class="chev">{{ openFaq() === i ? '−' : '+' }}</span>
+        </button>
+        <div class="faq-a" *ngIf="openFaq() === i">{{ item.answer }}</div>
+      </div>
     </div>
   </div>
 </section>
