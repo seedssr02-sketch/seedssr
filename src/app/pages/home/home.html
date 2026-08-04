@@ -3,7 +3,6 @@
     <video #heroVideo autoplay muted loop playsinline preload="metadata">
       <source src="/logo/video-ss-sem-audio.mp4" type="video/mp4" />
     </video>
-    <audio #heroAudio loop preload="auto" src="/logo/audio-ss.mp3"></audio>
   </div>
   <div class="container hero-inner">
     <div class="hero-text">
@@ -20,21 +19,6 @@
     </div>
   </div>
 </section>
-
-<button type="button" class="audio-fab" [class.audio-on]="audioEnabled()" [class.audio-off]="!audioEnabled()" (click)="toggleAudio()" aria-label="Alternar som">
-  <ng-container *ngIf="audioEnabled(); else mutedIcon">
-    <svg class="audio-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 5L6 9H2v6h4l5 4V5z" />
-      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-      <path d="M19.07 4.93a9 9 0 0 1 0 14.14" />
-    </svg>
-  </ng-container>
-  <ng-template #mutedIcon>
-    <svg class="audio-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 5L6 9H2v6h4l5 4V5z" />
-    </svg>
-  </ng-template>
-</button>
 
 <section class="section seed-gallery-section" aria-label="Galeria de sementes">
   <div class="container">

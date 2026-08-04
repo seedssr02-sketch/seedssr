@@ -9,12 +9,8 @@
       <div class="breadcrumb-divider"></div>
     </div>
     <h1>{{ currentTitle() }}</h1>
-    @if (currentDescription()) {
-      <p class="category-description">{{ currentDescription() }}</p>
-    }
-    @if (searchTerm()) {
-      <p class="search-info">Resultados para: <strong>"{{ searchTerm() }}"</strong></p>
-    }
+    <p class="category-description" *ngIf="currentDescription()">{{ currentDescription() }}</p>
+    <p class="search-info" *ngIf="searchTerm()">Resultados para: <strong>"{{ searchTerm() }}"</strong></p>
   </div>
 </section>
 
@@ -23,16 +19,17 @@
     <aside class="filters">
       <h3>Categorias</h3>
       <ul>
-        @for (cat of categories; track cat.slug) {
-          <li>
-            <a
-              [routerLink]="cat.slug === 'todas' ? '/catalogo' : ['/catalogo', cat.slug]"
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"              (click)="scrollToProducts()"            >
-              {{ cat.name }}
-            </a>
-          </li>
-        }
+        <li *ngFor="let cat of categories; trackBy: trackByCategory">
+          <a
+            href=""
+            [routerLink]="cat.slug === 'todas' ? '/catalogo' : ['/catalogo', cat.slug]"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="navigateCategory($event, cat)"
+          >
+            {{ cat.name }}
+          </a>
+        </li>
       </ul>
     </aside>
 
@@ -50,18 +47,17 @@
         </label>
       </div>
 
-      @if (products().length === 0) {
+      <ng-container *ngIf="products().length === 0; else productList">
         <div class="empty">
           <p>Nenhum produto encontrado.</p>
           <a routerLink="/catalogo" class="btn btn-outline">Ver tudo</a>
         </div>
-      } @else {
+      </ng-container>
+      <ng-template #productList>
         <div class="product-grid" id="product-list">
-          @for (p of products(); track p.id) {
-            <app-product-card [product]="p"/>
-          }
+          <app-product-card *ngFor="let p of products(); trackBy: trackByProduct" [product]="p"></app-product-card>
         </div>
-      }
+      </ng-template>
     </div>
   </div>
 </section>

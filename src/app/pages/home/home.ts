@@ -21,8 +21,6 @@ export class HomePage implements AfterViewInit, OnDestroy {
   site = SITE;
 
   @ViewChild('heroVideo', { static: true }) heroVideo?: ElementRef<HTMLVideoElement>;
-  @ViewChild('heroAudio', { static: true }) heroAudio?: ElementRef<HTMLAudioElement>;
-  audioEnabled = signal(true);
   private intersectionObserver?: IntersectionObserver;
   private unlistenScroll?: () => void;
   private unlistenVisibility?: () => void;
@@ -81,21 +79,7 @@ export class HomePage implements AfterViewInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const video = this.heroVideo?.nativeElement;
-    const audio = this.heroAudio?.nativeElement;
-    if (!video || !audio) return;
-
-    audio.loop = true;
-    audio.preload = 'auto';
-    audio.volume = 1;
-    audio.muted = false;
-    audio.load();
-
-    this.tryPlayAudio(audio).then((played) => {
-      if (!played) {
-        audio.muted = true;
-        this.audioEnabled.set(false);
-      }
-    });
+    if (!video) return;
 
     video.muted = true;
     video.play?.().catch(() => {});
@@ -103,9 +87,6 @@ export class HomePage implements AfterViewInit, OnDestroy {
     const keepPlaying = () => {
       if (video.paused && !document.hidden) {
         video.play?.().catch(() => {});
-      }
-      if (audio && !audio.paused && document.hidden === false) {
-        audio.play?.().catch(() => {});
       }
     };
 
@@ -129,40 +110,11 @@ export class HomePage implements AfterViewInit, OnDestroy {
     this.unlistenVisibility = () => window.removeEventListener('visibilitychange', keepPlaying);
   }
 
-  private tryPlayAudio(audio: HTMLAudioElement): Promise<boolean> {
-    return audio.play().then(
-      () => true,
-      () => {
-        return new Promise<boolean>((resolve) => {
-          setTimeout(() => {
-            audio.play().then(
-              () => resolve(true),
-              () => resolve(false)
-            );
-          }, 200);
-        });
-      }
-    );
-  }
-
   ngOnDestroy() {
     this.intersectionObserver?.disconnect();
     this.unlistenScroll?.();
     this.unlistenResize?.();
     this.unlistenVisibility?.();
-  }
-
-  toggleAudio() {
-    const audio = this.heroAudio?.nativeElement;
-    if (!audio) return;
-
-    const enabled = !this.audioEnabled();
-    this.audioEnabled.set(enabled);
-
-    audio.muted = !enabled;
-    if (enabled && audio.paused) {
-      this.tryPlayAudio(audio);
-    }
   }
 
   trackBySlug(_index: number, item: { slug: string }) {

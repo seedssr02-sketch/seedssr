@@ -1,16 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { SITE } from '../../config/site.config';
 
 interface MenuItem {
   label: string;
-  link: string;
+  link?: string;
+  children?: MenuItem[];
 }
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgIf, NgFor],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -19,17 +21,29 @@ export class HeaderComponent {
   router = inject(Router);
   site = SITE;
 
+  seedsOpen = signal(false);
   mobileOpen = signal(false);
   searchOpen = signal(false);
   searchQuery = signal('');
 
   readonly menu: MenuItem[] = [
-    { label: 'Feminizadas', link: '/catalogo/feminizadas' },
-    { label: 'Autoflorescentes', link: '/catalogo/autoflorescentes' },
-    { label: 'CBD', link: '/catalogo/cbd' },
-    { label: 'Sementes de Cali', link: '/catalogo/cali' },
-    // Entradas temporariamente removidas: Atacado, Headshop
+    { label: 'Home', link: '/' },
+    {
+      label: 'Sementes',
+      children: [
+        { label: 'Feminizadas', link: '/catalogo/feminizadas' },
+        { label: 'Autoflorescentes', link: '/catalogo/autoflorescentes' },
+        { label: 'CBD', link: '/catalogo/cbd' },
+        { label: 'Sementes de Cali', link: '/catalogo/cali' },
+      ],
+    },
+    { label: 'Sobre', link: '/sobre' },
+    { label: 'Contato', link: '/contato' },
   ];
+
+  toggleSeedsMenu() {
+    this.seedsOpen.update((v) => !v);
+  }
 
   toggleMobile() {
     this.mobileOpen.update((v) => !v);
@@ -37,6 +51,7 @@ export class HeaderComponent {
 
   closeMobile() {
     this.mobileOpen.set(false);
+    this.seedsOpen.set(false);
   }
 
   toggleSearch() {
@@ -56,5 +71,9 @@ export class HeaderComponent {
 
   openCart() {
     this.cart.open();
+  }
+
+  trackByLabel(_index: number, item: { label: string }) {
+    return item.label;
   }
 }
