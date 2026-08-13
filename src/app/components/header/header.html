@@ -80,23 +80,6 @@
     </div>
   }
 
-  <ng-container *ngIf="searchOpen()">
-    <div class="search-bar">
-      <div class="container">
-        <form (submit)="submitSearch($event)">
-          <input
-            type="search"
-            placeholder="Buscar sementes, genéticas..."
-            [value]="searchQuery()"
-            (input)="searchQuery.set($any($event.target).value)"
-            autofocus
-          />
-          <button type="submit" class="btn btn-primary">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </ng-container>
-
   <ng-container *ngIf="mobileOpen()">
     <nav class="mobile-nav">
       <ng-container *ngFor="let item of menu; trackBy: trackByLabel">
