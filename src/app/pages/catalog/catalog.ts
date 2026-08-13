@@ -33,7 +33,6 @@ export class CatalogPage {
     { slug: 'todas', name: 'Todas' },
     { slug: 'feminizadas', name: 'Feminizadas' },
     { slug: 'autoflorescentes', name: 'Autoflorescentes' },
-    { slug: 'cbd', name: 'CBD' },
     { slug: 'cali', name: 'Sementes de Cali' },
   ];
 
@@ -106,8 +105,6 @@ export class CatalogPage {
         'Sementes feminizadas são criadas para produzir plantas femininas, com menos risco de flores masculinas e maior consistência na colheita.',
       autoflorescentes:
         'Sementes autoflorescentes crescem rápido e não dependem de mudança de luz, perfeitas para quem busca simplicidade e ciclos mais curtos.',
-      cbd:
-        'Sementes de CBD são selecionadas para oferecer variedades com maior teor de canabidiol e efeito mais suave, ideal para bem-estar.',
       cali:
         'Sementes de Cali trazem linhagens inspiradas na Califórnia, com perfil premium, aromas marcantes e estrutura estável.',
       atacado:

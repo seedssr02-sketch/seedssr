@@ -25,11 +25,6 @@ export const FAQ: FaqItem[] = [
       'Feminizadas produzem apenas plantas fêmeas, com ciclo dependente de fotoperíodo. Autoflorescentes florescem automaticamente após algumas semanas, sem depender de luz, e têm ciclo mais curto.',
   },
   {
-    question: 'O que é CBD?',
-    answer:
-      'Canabidiol é um composto não psicoativo da cannabis, conhecido por propriedades terapêuticas. Variedades CBD têm baixo THC e são procuradas para uso medicinal.',
-  },
-  {
     question: 'Vocês garantem a germinação?',
     answer:
       'Sim. Trabalhamos com bancos selecionados e fazemos controle de qualidade. Em caso de problema, basta entrar em contato via WhatsApp.',

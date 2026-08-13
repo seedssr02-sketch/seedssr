@@ -111,8 +111,15 @@
     place-items: center;
     font-weight: 700;
     font-size: 1.1rem;
+    color: var(--color-text);
 
-    &:hover { background: var(--color-surface); }
+    &:hover:not(:disabled) { background: var(--color-surface); }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      background: transparent;
+    }
   }
 
   span {

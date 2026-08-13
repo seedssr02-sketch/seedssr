@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, inject, signal, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { WhatsappService } from '../../services/whatsapp.service';
@@ -18,9 +18,11 @@ export class HomePage implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private productService = inject(ProductService);
   private whatsapp = inject(WhatsappService);
+  private router = inject(Router);
   site = SITE;
 
   @ViewChild('heroVideo', { static: true }) heroVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChild('carouselContainer') carouselContainer?: ElementRef<HTMLDivElement>;
   private intersectionObserver?: IntersectionObserver;
   private unlistenScroll?: () => void;
   private unlistenVisibility?: () => void;
@@ -44,11 +46,16 @@ export class HomePage implements AfterViewInit, OnDestroy {
   faq = FAQ;
 
   readonly seedGallery = [
-    { slug: 'amnesia-haze-fem', image: '/img1.jpeg', alt: 'Amnesia Haze Feminizada' },
-    { slug: 'purple-punch-fem', image: '/img2.jpeg', alt: 'Purple Punch Feminizada' },
-    { slug: 'wedding-cake-auto', image: '/img3.jpeg', alt: 'Wedding Cake Autoflorescente' },
-    { slug: 'gorilla-glue-fem', image: '/img4.jpeg', alt: 'Gorilla Glue #4 Feminizada' },
+    { slug: 'feminizadas', image: '/logo/img-crsse01.png', alt: 'CrssE01', route: '/catalogo/feminizadas' },
+    { slug: 'autoflorescentes', image: '/logo/img-crsse03.png', alt: 'CrssE03', route: '/catalogo/autoflorescentes' },
+    { slug: 'cali', image: '/logo/img-crsse02.png', alt: 'CrssE02', route: '/catalogo/cali' },
   ];
+
+  // Controle do carrossel
+  carouselIndex = signal(0);
+  private touchStartX = 0;
+  private touchEndX = 0;
+  private isDragging = false;
 
   // Título animado: cada letra entra sequencialmente e espaços são preservados
   heroTitle = 'Sementes selecionadas, as melhores!';
@@ -62,18 +69,61 @@ export class HomePage implements AfterViewInit, OnDestroy {
 
   talkOnWhatsapp() {
     this.whatsapp.openChat(
-      'Olá! Vim pelo site da Señores SEEDS BANK e gostaria de conhecer as genéticas disponíveis.'
+      'Olá! Vim pelo site Señores SEEDS BANK e gostaria de conhecer as genéticas disponíveis.'
     );
   }
 
   readonly categories = [
     { slug: 'feminizadas', name: 'Feminizadas', icon: '🌸' },
     { slug: 'autoflorescentes', name: 'Autoflorescentes', icon: '⚡' },
-    { slug: 'cbd', name: 'CBD', icon: '🌿' },
     { slug: 'cali', name: 'Cali Seeds', icon: '🌴' },
     { slug: 'atacado', name: 'Atacado', icon: '📦' },
     { slug: 'headshop', name: 'Headshop', icon: '🛍️' },
   ];
+
+  isCategoryActive(category: 'feminizadas' | 'autoflorescentes' | 'cali') {
+    const url = this.router.url;
+    return url === `/catalogo/${category}` || url.startsWith(`/catalogo/${category}?`) || url.startsWith(`/catalogo/${category}/`);
+  }
+
+  // Métodos do carrossel
+  nextSlide() {
+    this.carouselIndex.update((i) => (i + 1) % this.seedGallery.length);
+  }
+
+  prevSlide() {
+    this.carouselIndex.update((i) => (i - 1 + this.seedGallery.length) % this.seedGallery.length);
+  }
+
+  goToSlide(index: number) {
+    this.carouselIndex.set(index);
+  }
+
+  onTouchStart(e: TouchEvent) {
+    this.touchStartX = e.touches[0].clientX;
+    this.isDragging = true;
+  }
+
+  onTouchEnd(e: TouchEvent) {
+    this.touchEndX = e.changedTouches[0].clientX;
+    this.isDragging = false;
+    this.handleSwipe();
+  }
+
+  private handleSwipe() {
+    const diff = this.touchStartX - this.touchEndX;
+    const threshold = 50; // Mínimo de pixels para considerar um swipe
+
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        // Swipe para esquerda = próxima imagem
+        this.nextSlide();
+      } else {
+        // Swipe para direita = imagem anterior
+        this.prevSlide();
+      }
+    }
+  }
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;

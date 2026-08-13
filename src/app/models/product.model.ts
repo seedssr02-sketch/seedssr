@@ -1,7 +1,6 @@
 export type ProductCategory =
   | 'feminizadas'
   | 'autoflorescentes'
-  | 'cbd'
   | 'cali'
   | 'atacado'
   | 'headshop';
@@ -13,7 +12,6 @@ export interface Product {
   category: ProductCategory;
   genetics?: string;
   thc?: string;
-  cbd?: string;
   predominance?: string;
   medicinal?: string;
   effects?: string;

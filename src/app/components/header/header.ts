@@ -33,7 +33,6 @@ export class HeaderComponent {
       children: [
         { label: 'Feminizadas', link: '/catalogo/feminizadas' },
         { label: 'Autoflorescentes', link: '/catalogo/autoflorescentes' },
-        { label: 'CBD', link: '/catalogo/cbd' },
         { label: 'Sementes de Cali', link: '/catalogo/cali' },
       ],
     },

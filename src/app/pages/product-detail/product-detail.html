@@ -30,7 +30,6 @@
 
         <div class="product-specs">
           @if (p.thc) { <p><strong>Concentração de THC:</strong> {{ p.thc }}</p> }
-          @if (p.cbd) { <p><strong>Concentração de CBD:</strong> {{ p.cbd }}</p> }
           @if (p.predominance) { <p><strong>Predominância:</strong> {{ p.predominance }}</p> }
           @if (p.genetics) { <p><strong>Genética:</strong> {{ p.genetics }}</p> }
           @if (p.medicinal) { <p><strong>Medicinal:</strong> {{ p.medicinal }}</p> }
@@ -43,24 +42,22 @@
 
         <div class="actions">
           <div class="qty">
-            <button (click)="dec()" aria-label="Diminuir">−</button>
+            <button type="button" (click)="dec()" aria-label="Diminuir" [disabled]="!canDecrease">−</button>
             <span>{{ qty() }}</span>
-            <button (click)="inc()" aria-label="Aumentar">+</button>
+            <button type="button" (click)="inc()" aria-label="Aumentar" [disabled]="!canIncrease">+</button>
           </div>
           <div class="price-summary">
-            <span class="price">{{ (p.price * qty()) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+            <span class="price">{{ getSelectedPrice(p) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
           </div>
-          <button type="button" class="btn btn-outline" (click)="addToCart()">Adicionar ao carrinho</button>
-          <button type="button" class="btn btn-primary" (click)="cart.open()">Ir para o carrinho</button>
+          <button type="button" class="btn btn-primary" (click)="addToCart()">Adicionar ao carrinho</button>
         </div>
 
-        @if (p.genetics || p.thc || p.cbd || p.flowering || p.yield) {
+        @if (p.genetics || p.thc || p.flowering || p.yield) {
           <div class="specs">
             <h3>Características</h3>
             <dl>
               @if (p.genetics) { <dt>Genética</dt><dd>{{ p.genetics }}</dd> }
               @if (p.thc) { <dt>THC</dt><dd>{{ p.thc }}</dd> }
-              @if (p.cbd) { <dt>CBD</dt><dd>{{ p.cbd }}</dd> }
               @if (p.flowering) { <dt>Floração</dt><dd>{{ p.flowering }}</dd> }
               @if (p.yield) { <dt>Produção</dt><dd>{{ p.yield }}</dd> }
             </dl>

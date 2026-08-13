@@ -99,6 +99,14 @@
       border-color: transparent;
       font-weight: 700;
     }
+
+    &.active {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: transparent;
+      font-weight: 700;
+      box-shadow: 0 0 0 1px rgba(115, 204, 124, 0.45), 0 10px 24px rgba(23, 13, 10, 0.22);
+    }
   }
 }
 
