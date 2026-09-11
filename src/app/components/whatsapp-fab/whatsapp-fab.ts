@@ -37,7 +37,7 @@ export class WhatsappFabComponent {
 
   open() {
     this.whatsapp.openChat(
-      'Olá! Vim pelo site da Señores SEEDS BANK e gostaria de tirar uma dúvida.'
+      'Olá! Vim pelo site da Neerland Seeds bank BR e gostaria de tirar uma dúvida.'
     );
   }
 }

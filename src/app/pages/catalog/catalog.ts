@@ -1,6 +1,5 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../services/product.service';
 import { Product, ProductCategory } from '../../models/product.model';
@@ -15,14 +14,13 @@ type SortKey = 'destaque' | 'preco-asc' | 'preco-desc' | 'nome';
 
 @Component({
   selector: 'app-catalog',
-  imports: [RouterLink, RouterLinkActive, NgIf, NgFor, ProductCardComponent],
+  imports: [RouterLink, RouterLinkActive, ProductCardComponent],
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
 export class CatalogPage {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
 
   private params = toSignal(this.route.paramMap, { requireSync: true });
   private query = toSignal(this.route.queryParamMap, { requireSync: true });
@@ -33,7 +31,10 @@ export class CatalogPage {
     { slug: 'todas', name: 'Todas' },
     { slug: 'feminizadas', name: 'Feminizadas' },
     { slug: 'autoflorescentes', name: 'Autoflorescentes' },
+    { slug: 'cbd', name: 'CBD' },
     { slug: 'cali', name: 'Sementes de Cali' },
+    { slug: 'atacado', name: 'Atacado' },
+    { slug: 'headshop', name: 'Headshop' },
   ];
 
   category = computed<CategoryOption['slug']>(() => {
@@ -43,17 +44,6 @@ export class CatalogPage {
   });
 
   searchTerm = computed(() => this.query()?.get('q') ?? '');
-
-  private hasLoaded = signal(false);
-
-  private scrollOnCategoryChange = effect(() => {
-    const category = this.category();
-    if (!this.hasLoaded()) {
-      this.hasLoaded.set(true);
-      return;
-    }
-    setTimeout(() => this.scrollToProducts(), 120);
-  });
 
   products = computed<Product[]>(() => {
     let list: Product[];
@@ -105,6 +95,8 @@ export class CatalogPage {
         'Sementes feminizadas são criadas para produzir plantas femininas, com menos risco de flores masculinas e maior consistência na colheita.',
       autoflorescentes:
         'Sementes autoflorescentes crescem rápido e não dependem de mudança de luz, perfeitas para quem busca simplicidade e ciclos mais curtos.',
+      cbd:
+        'Sementes de CBD são selecionadas para oferecer variedades com maior teor de canabidiol e efeito mais suave, ideal para bem-estar.',
       cali:
         'Sementes de Cali trazem linhagens inspiradas na Califórnia, com perfil premium, aromas marcantes e estrutura estável.',
       atacado:
@@ -121,26 +113,10 @@ export class CatalogPage {
     this.sort.set(value);
   }
 
-  navigateCategory(event: Event, cat: CategoryOption) {
-    event.preventDefault();
-    const path = cat.slug === 'todas' ? ['/catalogo'] : ['/catalogo', cat.slug];
-    this.router.navigate(path).then(() => {
-      this.scrollToProducts();
-    });
-  }
-
   scrollToProducts() {
     const target = document.getElementById('product-list');
     if (!target) return;
 
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  trackByCategory(_index: number, item: CategoryOption) {
-    return item.slug;
-  }
-
-  trackByProduct(_index: number, item: Product) {
-    return item.id;
   }
 }

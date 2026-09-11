@@ -1,13 +1,12 @@
 export const SITE = {
-  name: 'Señores SEEDS BANK',
-  version: '1.0.1',
-  tagline: 'Sementes premium entregues no Brasil',
+  name: 'Neerland Seeds bank',
+  tagline: 'Home of Cannabis Cup Winning Varieties',
 
-  whatsappNumber: '5511958520419', // TESTE - anterior: '5511920016147'
+  whatsappNumber: '5512996159528',
 
-  email: 'contato@seedsgenetics-sr.com',
-  instagram: 'https://instagram.com',
-  facebook: 'https://facebook.com',
+  email: 'contato@neerlandseedsbank.com',
+  instagram: 'https://instagram.com/neerland_official',
+  facebook: 'https://instagram.com/neerland_official',
 
   freeShippingFrom: 500,
 };

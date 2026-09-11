@@ -34,7 +34,7 @@ export class ContactPage {
   send() {
     const name = this.name().trim();
     const message = this.message().trim();
-    const parts: string[] = ['*Olá! Vim pelo site da Señores SEEDS BANK.*', ''];
+    const parts: string[] = ['*Olá! Vim pelo site da Neerland Seeds bank BR.*', ''];
     if (name) parts.push(`Meu nome é *${name}*.`);
     parts.push(message || 'Gostaria de mais informações.');
     this.whatsapp.openChat(parts.join('\n'));

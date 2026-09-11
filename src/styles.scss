@@ -1,15 +1,15 @@
 :root {
-  --color-bg: #070504;
-  --color-surface: #0f0d0b;
-  --color-surface-2: #17110f;
-  --color-card: #120f0d;
-  --color-border: #2a221f;
-  --color-text: #f4ece3;
-  --color-text-muted: #b19d8c;
-  --color-primary: #9b6b3d;
-  --color-primary-dark: #661411;
-  --color-primary-soft: #170d0a;
-  --color-accent: #4e2827;
+  --color-bg: #0a0b0a;
+  --color-surface: #131513;
+  --color-surface-2: #1c1f1c;
+  --color-card: #161816;
+  --color-border: #2a2e2a;
+  --color-text: #f2f4f2;
+  --color-text-muted: #9aa39c;
+  --color-primary: #2bb673;
+  --color-primary-dark: #239e62;
+  --color-primary-soft: #15281d;
+  --color-accent: #34d17e;
   --color-whatsapp: #25d366;
   --color-whatsapp-dark: #1ebe5a;
   --color-danger: #e05545;
@@ -167,3 +167,6 @@ img { max-width: 100%; display: block; }
     font-size: 0.9rem;
   }
 }
+
+/* Import WordPress/Flatsome adaptation styles */
+@import './wordpress.css';
