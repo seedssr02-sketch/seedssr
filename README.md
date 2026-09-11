@@ -1,6 +1,18 @@
 # SeedsSr
 
+Versão atual: 1.0.1
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.4.
+
+## Versionamento
+
+Use os comandos abaixo para evoluir a versão do projeto em semver:
+
+```bash
+npm run version:patch
+npm run version:minor
+npm run version:major
+```
 
 ## Development server
 

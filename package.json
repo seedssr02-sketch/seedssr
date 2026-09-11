@@ -1,12 +1,15 @@
 {
   "name": "seeds-sr",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version",
     "serve:ssr:seeds-sr": "node dist/seeds-sr/server/server.mjs"
   },
   "private": true,
