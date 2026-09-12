@@ -112,11 +112,4 @@ export class CatalogPage {
     const value = (event.target as HTMLSelectElement).value as SortKey;
     this.sort.set(value);
   }
-
-  scrollToProducts() {
-    const target = document.getElementById('product-list');
-    if (!target) return;
-
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
 }
