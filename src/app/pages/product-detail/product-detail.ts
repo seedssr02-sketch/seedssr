@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Product } from '../../models/product.model';
+import { Product, ProductCategory } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { WhatsappService } from '../../services/whatsapp.service';
@@ -23,6 +23,14 @@ export class ProductDetailPage {
   private params = toSignal(this.route.paramMap, { requireSync: true });
   private readonly quantityOptions = [3, 5, 10];
 
+  private readonly categoryLabels: Record<ProductCategory, string> = {
+    feminizadas: 'Feminizadas',
+    autoflorescentes: 'Autoflorescentes',
+    cali: 'Sementes Especiais',
+    atacado: 'Atacado',
+    headshop: 'Headshop',
+  };
+
   product = signal<Product | undefined>(undefined);
 
   related = computed(() => {
@@ -38,6 +46,10 @@ export class ProductDetailPage {
       this.product.set(this.productService.bySlug(slug));
       this.qty.set(5);
     });
+  }
+
+  categoryLabel(category: ProductCategory): string {
+    return this.categoryLabels[category] ?? category;
   }
 
   getSelectedPrice(product: Product): number {

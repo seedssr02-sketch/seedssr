@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductService } from '../../services/product.service';
 import { Product, ProductCategory } from '../../models/product.model';
@@ -14,13 +15,14 @@ type SortKey = 'destaque' | 'preco-asc' | 'preco-desc' | 'nome';
 
 @Component({
   selector: 'app-catalog',
-  imports: [RouterLink, RouterLinkActive, ProductCardComponent],
+  imports: [RouterLink, RouterLinkActive, NgIf, NgFor, ProductCardComponent],
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
 export class CatalogPage {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   private params = toSignal(this.route.paramMap, { requireSync: true });
   private query = toSignal(this.route.queryParamMap, { requireSync: true });
@@ -31,10 +33,7 @@ export class CatalogPage {
     { slug: 'todas', name: 'Todas' },
     { slug: 'feminizadas', name: 'Feminizadas' },
     { slug: 'autoflorescentes', name: 'Autoflorescentes' },
-    { slug: 'cbd', name: 'CBD' },
-    { slug: 'cali', name: 'Sementes de Cali' },
-    { slug: 'atacado', name: 'Atacado' },
-    { slug: 'headshop', name: 'Headshop' },
+    { slug: 'cali', name: 'Sementes Especiais' },
   ];
 
   category = computed<CategoryOption['slug']>(() => {
@@ -95,10 +94,8 @@ export class CatalogPage {
         'Sementes feminizadas são criadas para produzir plantas femininas, com menos risco de flores masculinas e maior consistência na colheita.',
       autoflorescentes:
         'Sementes autoflorescentes crescem rápido e não dependem de mudança de luz, perfeitas para quem busca simplicidade e ciclos mais curtos.',
-      cbd:
-        'Sementes de CBD são selecionadas para oferecer variedades com maior teor de canabidiol e efeito mais suave, ideal para bem-estar.',
       cali:
-        'Sementes de Cali trazem linhagens inspiradas na Califórnia, com perfil premium, aromas marcantes e estrutura estável.',
+        'Sementes Especiais trazem linhagens exclusivas com perfil premium, aromas marcantes e estrutura estável.',
       atacado:
         'Atacado reúne ofertas especiais para revenda e growshops, com condições de preço e volume pensadas para compras maiores.',
       headshop:
@@ -111,5 +108,23 @@ export class CatalogPage {
   setSort(event: Event) {
     const value = (event.target as HTMLSelectElement).value as SortKey;
     this.sort.set(value);
+  }
+
+  navigateCategory(event: Event, cat: CategoryOption) {
+    event.preventDefault();
+    const path = cat.slug === 'todas' ? ['/catalogo'] : ['/catalogo', cat.slug];
+    this.router.navigate(path).then(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      }
+    });
+  }
+
+  trackByCategory(_index: number, item: CategoryOption) {
+    return item.slug;
+  }
+
+  trackByProduct(_index: number, item: Product) {
+    return item.id;
   }
 }

@@ -14,7 +14,6 @@ export const PRODUCTS: Product[] = [
     category: 'autoflorescentes',
     genetics: 'Lemon Skunk x Super Silver Haze',
     thc: '20%',
-    cbd: '0,8%',
     flowering: '8-9 semanas',
     yield: '450-550 g/m²',
     type: 'Sativa-dominante',
@@ -31,38 +30,12 @@ export const PRODUCTS: Product[] = [
   */
   
   {
-    id: 'p3',
-    slug: 'wedding-cake-auto',
-    name: 'Wedding Cake Autoflorescente',
-    category: 'autoflorescentes',
-    genetics: 'Triangle Kush x Animal Mints',
-    thc: '24%',
-    cbd: '0,3%',
-    predominance: '65% Indica 35% Sativa',
-    medicinal: 'Relaxamento e bem-estar',
-    effects: 'Euforia, Relaxamento, Foco',
-    height: '90-120cm',
-    flowering: '9-10 semanas',
-    flavor: 'Baunilha, Doce, Cremoso',
-    yield: '500-600 g/m²',
-    type: 'Indica-dominante',
-    price: 110.0,
-    image:
-      'https://neerlandseedsbank.com/wp-content/uploads/2021/10/tyson-punch--821x1024.jpeg',
-    shortDescription: 'Doce com toque de baunilha, alta potência.',
-    description:
-      'Wedding Cake Auto entrega cogumelos densos cobertos de tricomas. Sabor adocicado e efeito potente, recomendado para usuários experientes.',
-    bestSeller: true,
-    stock: 35,
-  },
-  {
     id: 'p4',
     slug: 'gorilla-glue-fem',
     name: 'Gorilla Glue #4 Feminizada',
     category: 'feminizadas',
     genetics: 'Sour Dubb x Chem Sis x Chocolate Diesel',
     thc: '26%',
-    cbd: '0,2%',
     predominance: '55% Indica 45% Sativa',
     medicinal: 'Relaxamento intenso e alívio muscular',
     effects: 'Sono, Relaxamento, Corpo pesado',
@@ -72,8 +45,7 @@ export const PRODUCTS: Product[] = [
     yield: '550-650 g/m²',
     type: 'Híbrida balanceada',
     price: 135.0,
-    image:
-      'https://neerlandseedsbank.com/wp-content/uploads/2021/10/goriila-glue-.1--821x1024.jpg',
+    image: '/catalogo/feminizadas/GorillaGlueFeminized.png',
     shortDescription: 'Resinosa, potente e premiada.',
     description:
       'Gorilla Glue #4 é mundialmente conhecida por sua produção excepcional de resina. Tricomas grudentos e efeito relaxante de longa duração.',
@@ -87,7 +59,6 @@ export const PRODUCTS: Product[] = [
     category: 'feminizadas',
     genetics: 'OG Kush x Amnesia Haze',
     thc: '23%+-',
-    cbd: '0,5%+-',
     predominance: '70% Sativa 30% Indica',
     medicinal: 'Ajuda no tratamento de dores, ansiedade e depressão',
     effects: 'Felicidade, Fome, Foco, Criatividade, Energético',
@@ -97,8 +68,7 @@ export const PRODUCTS: Product[] = [
     yield: '100 a 600 gramas por metro quadrado',
     type: 'Sativa-dominante',
     price: 125.98,
-    image:
-      'https://neerlandseedsbank.com/wp-content/uploads/2021/10/super-lemon-1-821x1024.jpeg',
+    image: '/catalogo/feminizadas/AmnesiaHazeFeminized.png',
     shortDescription: 'Clássica sativa cerebral com alto rendimento.',
     description:
       'Amnésia Kush Fem é uma genética premiada para cultivadores que buscam rendimento e efeito motivador. Ideal para uso diurno e criativo.',
@@ -112,7 +82,6 @@ export const PRODUCTS: Product[] = [
     category: 'feminizadas',
     genetics: 'Larry OG x Granddaddy Purple',
     thc: '22%',
-    cbd: '0,5%',
     predominance: '60% Indica 40% Sativa',
     medicinal: 'Relaxamento e alívio de dor leve',
     effects: 'Sono, Calmante, Apetite',
@@ -122,16 +91,13 @@ export const PRODUCTS: Product[] = [
     yield: '500-600 g/m²',
     type: 'Indica-dominante',
     price: 123.0,
-    image:
-      'https://neerlandseedsbank.com/wp-content/uploads/2021/10/nyc-diesel--821x1024.jpeg',
+    image: '/catalogo/feminizadas/PurplePunchFeminized.png',
     shortDescription: 'Doce, frutado e relaxante.',
     description:
       'Purple Punch oferece sabor de uva com efeito profundamente relaxante. Ideal para terminar o dia com tranquilidade.',
     bestSeller: true,
     stock: 40,
   },
-<<<<<<< HEAD
-=======
   {
     id: 'p7',
     slug: 'blue-dream-cake-fem',
@@ -1649,7 +1615,7 @@ export const PRODUCTS: Product[] = [
     id: 'cali21',
     slug: 'apple-fritter-feminized-cali',
     name: 'Apple Fritter Feminized',
-    category: 'cali',
+    category: 'autoflorescentes',
     thc: '22%',
     predominance: '55% Indica 45% Sativa',
     effects: 'Doce, Calmante, Tranquilo',
@@ -2121,7 +2087,6 @@ export const PRODUCTS: Product[] = [
     description: 'Blue Dream Cake Feminized é pensada para quem busca notas doces.',
     stock: 30,
   },
->>>>>>> 1322603 (ajuste de categoria de autoflower e scroll topo)
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
@@ -2139,3 +2104,4 @@ export function getBestSellers(): Product[] {
 export function getPromos(): Product[] {
   return PRODUCTS.filter((p) => p.promo);
 }
+

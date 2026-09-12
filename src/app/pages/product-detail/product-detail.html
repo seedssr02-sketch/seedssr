@@ -4,7 +4,7 @@
       <nav class="breadcrumb">
         <a routerLink="/">Início</a>
         <span>/</span>
-        <a [routerLink]="['/catalogo', p.category]">{{ p.category }}</a>
+        <a [routerLink]="['/catalogo', p.category]">{{ categoryLabel(p.category) }}</a>
         <span>/</span>
         <span>{{ p.name }}</span>
       </nav>

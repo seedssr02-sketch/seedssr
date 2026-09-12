@@ -1,17 +1,20 @@
 <section class="hero">
-  <div class="hero-bg" [style.background-image]="'url(' + heroBackground + ')'"></div>
+  <div class="hero-bg">
+    <video #heroVideo autoplay muted loop playsinline preload="metadata">
+      <source src="/logo/video-ss-sem-audio.mp4" type="video/mp4" />
+    </video>
+  </div>
   <div class="container hero-inner">
     <div class="hero-text">
       <span class="badge">Genética premium</span>
       <h1 class="hero-animated">
-        @for (char of heroChars; track $index; let i = $index) {
-          <span class="letter" [style.animation-delay]="i * 60 + 'ms'">{{ char }}</span>
-        }
+        <ng-container *ngFor="let char of heroChars; let i = index">
+          <span class="letter" [style.animationDelay]="i * 60 + 'ms'">{{ char }}</span>
+        </ng-container>
       </h1>
-      <p>As melhores sementes de cannabis da Holanda: envio internacional, qualidade premium e atendimento direto pelo WhatsApp.</p>
+      <p>Curadoria de genéticas premiadas, embalagem 100% discreta e atendimento direto pelo WhatsApp.</p>
       <div class="hero-actions">
-        <a routerLink="/catalogo" class="btn btn-primary btn-sm">Para a loja online</a>
-        <button type="button" class="btn btn-outline btn-sm" (click)="talkOnWhatsapp()">Falar no WhatsApp</button>
+        <a routerLink="/catalogo" class="btn btn-primary btn-sm">Ver catálogo</a>
       </div>
     </div>
   </div>
@@ -19,12 +22,48 @@
 
 <section class="section seed-gallery-section" aria-label="Galeria de sementes">
   <div class="container">
-    <div class="seed-gallery">
-      @for (item of seedGallery; track item.slug) {
-        <a [routerLink]="['/produto', item.slug]" class="seed-card">
+    <div class="seed-gallery-carousel" #carouselContainer
+      (touchstart)="onTouchStart($event)"
+      (touchend)="onTouchEnd($event)">
+      <div class="carousel-track">
+        <a
+          *ngFor="let item of seedGallery; let i = index; trackBy: trackBySlug"
+          [routerLink]="item.route"
+          class="seed-card carousel-slide"
+          [class.active]="i === carouselIndex()"
+        >
           <img [src]="item.image" [alt]="item.alt" />
         </a>
-      }
+      </div>
+
+      <!-- Botões de navegação -->
+      <button
+        (click)="prevSlide()"
+        class="carousel-btn carousel-btn-prev"
+        aria-label="Slide anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button
+        (click)="nextSlide()"
+        class="carousel-btn carousel-btn-next"
+        aria-label="Próximo slide">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <!-- Indicadores de paginação -->
+      <div class="carousel-dots">
+        <button
+          *ngFor="let item of seedGallery; let i = index"
+          [class.active]="i === carouselIndex()"
+          (click)="goToSlide(i)"
+          [attr.aria-label]="'Ir para slide ' + (i + 1)">
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -34,21 +73,42 @@
     <div class="section-title">
       <span>Explorar</span>
       <h2>Principais categorias</h2>
-      <p class="section-subtitle">Escolha a genética ideal com destaque para feminizadas, autoflorescentes, Cali e CBD.</p>
+      <p class="section-subtitle">Escolha a genética ideal com destaque para feminizadas, autoflorescentes e Cali.</p>
     </div>
     <div class="hero-visual">
-      @for (cat of categories; track cat.slug) {
-        <a
-          [routerLink]="cat.slug === 'todas' ? '/catalogo' : ['/catalogo', cat.slug]"
-          class="cat-btn"
-        >
-          <div>
-            <small>{{ cat.icon }} Ver tudo em {{ cat.name }}</small>
-            <strong>{{ cat.name }}</strong>
-          </div>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      }
+      <a
+        routerLink="/catalogo/feminizadas"
+        [class.active]="isCategoryActive('feminizadas')"
+        class="cat-btn cat-fem"
+      >
+        <div>
+          <small>Melhor para cultivo indoor</small>
+          <strong>Sementes Feminizadas</strong>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a
+        routerLink="/catalogo/autoflorescentes"
+        [class.active]="isCategoryActive('autoflorescentes')"
+        class="cat-btn cat-auto"
+      >
+        <div>
+          <small>Crescimento rápido e simples</small>
+          <strong>Sementes Autoflorescentes</strong>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a
+        routerLink="/catalogo/cali"
+        [class.active]="isCategoryActive('cali')"
+        class="cat-btn cat-cali"
+      >
+        <div>
+          <small>Linhagens premium especiais</small>
+          <strong>Sementes Especiais</strong>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -60,9 +120,10 @@
       <h2>Mais vendidos</h2>
     </div>
     <div class="product-grid">
-      @for (p of bestSellers; track p.id) {
-        <app-product-card [product]="p" />
-      }
+      <app-product-card
+        *ngFor="let p of bestSellers; trackBy: trackByProductId"
+        [product]="p"
+      ></app-product-card>
     </div>
   </div>
 </section>
@@ -77,22 +138,20 @@
   </div>
 </section>
 
-
-@if (promos.length > 0) {
-  <section class="section">
-    <div class="container">
-      <div class="section-title">
-        <span>Aproveite</span>
-        <h2>Em promoção</h2>
-      </div>
-      <div class="product-grid">
-        @for (p of promos; track p.id) {
-          <app-product-card [product]="p"/>
-        }
-      </div>
+<section class="section" *ngIf="promos.length > 0">
+  <div class="container">
+    <div class="section-title">
+      <span>Aproveite</span>
+      <h2>Em promoção</h2>
     </div>
-  </section>
-}
+    <div class="product-grid">
+      <app-product-card
+        *ngFor="let p of promos; trackBy: trackByProductId"
+        [product]="p"
+      ></app-product-card>
+    </div>
+  </div>
+</section>
 
 <section class="section about-section">
   <div class="container about-grid">
@@ -100,7 +159,7 @@
       <span class="eyebrow">Sobre nós</span>
       <h2>Genética premium, atendimento humano</h2>
       <p>A {{ site.name }} reúne sementes selecionadas de bancos reconhecidos mundialmente. Nossa missão é entregar qualidade e suporte real para o cultivador brasileiro, do iniciante ao avançado.</p>
-      <p>Trabalhamos com feminizadas, autoflorescentes, CBD e linhagens premium da Califórnia. Pagamento via PIX, transferência ou cripto. Toda compra é finalizada no WhatsApp para você falar direto com o time.</p>
+      <p>Trabalhamos com feminizadas, autoflorescentes e sementes especiais de alta qualidade. Pagamento via PIX, transferência ou cripto. Toda compra é finalizada no WhatsApp para você falar direto com o time.</p>
       <a routerLink="/sobre" class="btn btn-outline">Saiba mais</a>
     </div>
     <ul class="check-list">
@@ -120,17 +179,13 @@
       <h2>Perguntas frequentes</h2>
     </div>
     <div class="faq-list">
-      @for (item of faq; track item.question; let i = $index) {
-        <div class="faq-item" [class.open]="openFaq() === i">
-          <button class="faq-q" (click)="toggleFaq(i)">
-            <span>{{ item.question }}</span>
-            <span class="chev">{{ openFaq() === i ? '−' : '+' }}</span>
-          </button>
-          @if (openFaq() === i) {
-            <div class="faq-a">{{ item.answer }}</div>
-          }
-        </div>
-      }
+      <div *ngFor="let item of faq; let i = index; trackBy: trackByFaqQuestion" class="faq-item" [class.open]="openFaq() === i">
+        <button class="faq-q" (click)="toggleFaq(i)">
+          <span>{{ item.question }}</span>
+          <span class="chev">{{ openFaq() === i ? '−' : '+' }}</span>
+        </button>
+        <div class="faq-a" *ngIf="openFaq() === i">{{ item.answer }}</div>
+      </div>
     </div>
   </div>
 </section>
