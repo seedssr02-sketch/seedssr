@@ -1,21 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
 import { WhatsappService } from '../../services/whatsapp.service';
 import { ProductCardComponent } from '../../components/product-card/product-card';
-import { FAQ } from '../../data/faq.data';
+import { FAQ, FaqItem } from '../../data/faq.data';
 import { SITE } from '../../config/site.config';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ProductCardComponent],
+  imports: [CommonModule, RouterLink, ProductCardComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class HomePage {
   private productService = inject(ProductService);
   private whatsapp = inject(WhatsappService);
+  private router = inject(Router);
   site = SITE;
 
   // Seleção manual: lista de slugs que devem aparecer na home
@@ -23,7 +25,6 @@ export class HomePage {
   featuredSlugs = [
     'amnesia-haze-fem',
     'purple-punch-fem',
-    'wedding-cake-auto',
     'gorilla-glue-fem',
   ];
 
@@ -36,17 +37,56 @@ export class HomePage {
   faq = FAQ;
 
   readonly seedGallery = [
-    { slug: 'amnesia-haze-fem', image: '/img1.jpeg', alt: 'Amnesia Haze Feminizada' },
-    { slug: 'purple-punch-fem', image: '/img2.jpeg', alt: 'Purple Punch Feminizada' },
-    { slug: 'wedding-cake-auto', image: '/img3.jpeg', alt: 'Wedding Cake Autoflorescente' },
-    { slug: 'gorilla-glue-fem', image: '/img4.jpeg', alt: 'Gorilla Glue #4 Feminizada' },
+    { slug: 'feminizadas', image: '/logo/img-crsse01.png', alt: 'CrssE01', route: '/catalogo/feminizadas' },
+    { slug: 'autoflorescentes', image: '/logo/img-crsse03.png', alt: 'CrssE03', route: '/catalogo/autoflorescentes' },
+    { slug: 'cali', image: '/logo/img-crsse02.png', alt: 'CrssE02', route: '/catalogo/cali' },
   ];
 
   // Título animado: cada letra entra sequencialmente e espaços são preservados
-  heroBackground =
-    'https://neerlandseedsbank.com/wp-content/uploads/2025/02/wietzaden-actie-neerland.jpg';
-  heroTitle = 'Neerland Seeds bank BR';
+  heroTitle = 'Sementes selecionadas, as melhores!';
   heroChars = Array.from(this.heroTitle.replace(/ /g, '\u00A0'));
+
+  carouselIndex = signal(0);
+  private touchStartX = 0;
+
+  nextSlide() {
+    this.carouselIndex.update((index) => (index + 1) % this.seedGallery.length);
+  }
+
+  prevSlide() {
+    this.carouselIndex.update((index) => (index - 1 + this.seedGallery.length) % this.seedGallery.length);
+  }
+
+  goToSlide(index: number) {
+    this.carouselIndex.set(index);
+  }
+
+  trackBySlug(_: number, item: { slug: string }) {
+    return item.slug;
+  }
+
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.changedTouches[0]?.clientX ?? 0;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    const touchEndX = event.changedTouches[0]?.clientX ?? this.touchStartX;
+    const distance = touchEndX - this.touchStartX;
+    if (Math.abs(distance) < 40) return;
+    distance < 0 ? this.nextSlide() : this.prevSlide();
+  }
+
+  isCategoryActive(category: string) {
+    return this.router.url === `/catalogo/${category}`;
+  }
+
+  trackByProductId(_: number, product: Product) {
+    return product.id;
+  }
+
+  trackByFaqQuestion(_: number, item: FaqItem) {
+    return item.question;
+  }
 
   openFaq = signal<number | null>(0);
 

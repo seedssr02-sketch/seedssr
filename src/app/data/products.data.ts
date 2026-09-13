@@ -28,7 +28,6 @@ export const PRODUCTS: Product[] = [
     stock: 50,
   },
   */
-  
   {
     id: 'p4',
     slug: 'gorilla-glue-fem',

@@ -1,12 +1,12 @@
 export const SITE = {
   name: 'Señores SEEDS BANK',
+  version: '1.0.1',
   tagline: 'Sementes premium entregues no Brasil',
 
   whatsappNumber: '5511920202586',
 
-  email: 'contato@seedsgenetics-sr.com',
-  instagram: 'https://instagram.com',
-  facebook: 'https://facebook.com',
+  email: 'seedssr02@gmail.com',
+  instagram: 'https://www.instagram.com/senores_seeds_bank01/',
 
   freeShippingFrom: 500,
 };

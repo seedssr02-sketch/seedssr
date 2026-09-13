@@ -41,15 +41,15 @@
         <span class="value">{{ whatsappDisplay }}</span>
       </a>
 
-      <div class="channel channel-disabled">
+      <a class="channel" [href]="'mailto:' + site.email">
         <span class="label">E-mail</span>
-        <span class="value">Aguarde em breve</span>
-      </div>
+        <span class="value">{{ site.email }}</span>
+      </a>
 
-      <div class="channel channel-disabled">
+      <a class="channel" [href]="site.instagram" target="_blank" rel="noopener">
         <span class="label">Instagram</span>
-        <span class="value">Aguarde em breve</span>
-      </div>
+        <span class="value">senores_seeds_bank01</span>
+      </a>
 
       <div class="note">
         <p>Atendimento humano, todos os dias. Finalizamos pedidos e tiramos dúvidas diretamente pelo WhatsApp. 🌱</p>
