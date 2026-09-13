@@ -165,7 +165,7 @@
     font-weight: 500;
 
     &.active {
-      color: var(--color-primary);
+      color: #fff;
       font-weight: 700;
     }
   }
@@ -332,6 +332,6 @@
   }
   .logo-text small {
     display: inline-block;
-    color: var(--color-primary);
+    color: #fff;
   }
 }

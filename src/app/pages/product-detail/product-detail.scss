@@ -13,7 +13,7 @@
 
   a {
     text-transform: uppercase;
-    &:hover { color: var(--color-primary); }
+    &:hover { color: #fff; }
   }
 
   span:last-child { color: var(--color-text); font-weight: 500; }
@@ -48,7 +48,7 @@
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-primary);
+    color: #fff;
     font-weight: 700;
   }
 
@@ -143,7 +143,7 @@
   .price {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: #fff;
     margin: 0;
   }
 }

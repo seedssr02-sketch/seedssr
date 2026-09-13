@@ -93,12 +93,24 @@ ul {
 
   .category-list {
     a {
-      opacity: 0.35;
-      pointer-events: none;
-      cursor: default;
-      color: rgba(182, 194, 187, 0.35);
+      color: #fff;
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+      }
     }
   }
+}
+
+.site-footer ul.category-list a,
+.site-footer ul.category-list a:hover {
+  color: #fff;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .social {

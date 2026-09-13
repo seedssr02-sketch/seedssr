@@ -14,7 +14,7 @@
   flex-wrap: wrap;
 
   a {
-    &:hover { color: var(--color-primary); }
+    &:hover { color: #fff; }
   }
 
   span:last-child { color: var(--color-text); font-weight: 500; }
@@ -60,7 +60,10 @@
   display: grid;
   gap: 0.75rem;
 
-  h3 { color: var(--color-primary-dark); }
+  h3,
+  h3:hover {
+    color: #fff;
+  }
 
   p {
     color: var(--color-text-muted);

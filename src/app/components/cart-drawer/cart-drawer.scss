@@ -149,7 +149,7 @@
   color: var(--color-text-muted);
   padding: 0.2rem;
 
-  &:hover { color: var(--color-danger); }
+  &:hover { color: #fff; }
 }
 
 .drawer-footer {
@@ -174,7 +174,7 @@
 
 .promo-hit {
   background: var(--color-primary-soft);
-  color: var(--color-primary-dark);
+  color: #fff;
   font-weight: 600;
 }
 
